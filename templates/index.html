@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot Arm Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .control-group {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .value-display {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Robotic Arm: Control Panel</h1>
+    
+    <div class="control-group">
+        <h3>Base Rotation (Servo 1)</h3>
+        <input type="range" min="0" max="180" value="90" class="slider" id="servo1">
+        <span class="value-display" id="servo1Value">90°</span>
+    </div>
+    
+    <div class="control-group">
+        <h3>Arm 1 (Servo 2)</h3>
+        <input type="range" min="0" max="180" value="90" class="slider" id="servo2">
+        <span class="value-display" id="servo2Value">90°</span>
+    </div>
+    
+    <div class="control-group">
+        <h3>Arm 2 (Servo 3)</h3>
+        <input type="range" min="0" max="180" value="90" class="slider" id="servo3">
+        <span class="value-display" id="servo3Value">90°</span>
+    </div>
+    
+    <div class="control-group">
+        <h3>Claw (Servo 4)</h3>
+        <input type="range" min="0" max="180" value="90" class="slider" id="servo4">
+        <span class="value-display" id="servo4Value">90°</span>
+    </div>
+
+    <script>
+        function updateServo(servoNum, angle) {
+            fetch('/move_servo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    servo: servoNum,
+                    angle: angle
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // event listeners 
+        for (let i = 1; i <= 4; i++) {
+            const slider = document.getElementById(`servo${i}`);
+            const display = document.getElementById(`servo${i}Value`);
+            
+            slider.addEventListener('input', function() {
+                display.textContent = this.value + '°';
+            });
+            
+            slider.addEventListener('change', function() {
+                updateServo(i, this.value);
+            });
+        }
+    </script>
+</body>
+</html>
