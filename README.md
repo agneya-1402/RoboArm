@@ -124,9 +124,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Built with Flask framework
 - Arduino Servo library
 - Serial communication protocol
-
-## 📞 Contact
-
-Your Name - [@yourusername](https://twitter.com/yourusername)
-
-Project Link: [https://github.com/yourusername/roboarm-control-hub](https://github.com/yourusername/roboarm-control-hub)
